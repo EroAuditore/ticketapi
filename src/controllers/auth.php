@@ -8,7 +8,7 @@ $app->post('/api/auth', function(Request $request, Response $response){
       
     $value = json_decode($request->getBody());
    
-    $sql = "select * from usuarios where usuario= :usr and password = :pwd";
+    $sql = "select username, perfil from usuarios where username= :usr and password = :pwd";
     try{
         $key = "key_ultra_secreta";
         $db = new db();
@@ -27,16 +27,16 @@ $app->post('/api/auth', function(Request $request, Response $response){
         $payload = array(
             "iss" => "http://localhost",
             "aud" => "http://localhost",
-            "iat" => 1356999524,
-            "nbf" => 1357000000,
-            "username"=> "Ero"
+            "iat" =>  time(),
+            "nbf" =>  time(),
+            "data"=> $data[0]
         );
 
         $jwt = JWT::encode($payload, $key);
             echo $jwt;
         }else{
-            $data['error'] = 'Usuario o Contraseña incorrecto';
-            return $response->withJson($data, 400);
+            $err['error'] = 'Usuario o Contraseña incorrecto';
+            return $response->withJson($err, 400);
         }
         $resultado = null;
         $db = null;
