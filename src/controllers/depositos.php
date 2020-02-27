@@ -6,10 +6,10 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 
 //Get todos los tickets;
-$app->get('/api/retornos', function(Request $request, Response $response){
+$app->get('/api/depositos', function(Request $request, Response $response){
     /*echo "Api clientes";*/
 
-    $sql = "select * from retornos";
+    $sql = "select * from depositos";
     try{
 
         $db = new db();
@@ -19,7 +19,7 @@ $app->get('/api/retornos', function(Request $request, Response $response){
             $data = $resultado->fetchAll(PDO::FETCH_OBJ);
             echo json_encode($data);
         }else{
-            echo json_encode("No existen retornos en la BD.");
+            echo json_encode("No existen depositos en la BD.");
         }
         $resultado = null;
         $db = null;
