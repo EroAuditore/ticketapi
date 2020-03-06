@@ -110,3 +110,29 @@ $app->get('/api/tickets/{id}', function(Request $request, Response $response){
 });
 
 
+//Get todos los tickets;
+$app->get('/api/karen', function(Request $request, Response $response){
+    /*echo "Api clientes";*/
+
+    $sql = "select * from tickets";
+    try{
+
+        $db = new db();
+        $db = $db->connectDB();
+        $resultado = $db->query($sql);
+        if($resultado->rowCount()>0 ){
+            $data = $resultado->fetchAll(PDO::FETCH_OBJ);
+            echo json_encode($data);
+        }else{
+            echo json_encode("No existen tickets en la BD.");
+        }
+        $resultado = null;
+        $db = null;
+
+    }catch (PDOException $e)
+    {
+        echo '{"error": { "text":'.$e->getMessage().'}';
+
+    };
+
+});

@@ -4,7 +4,7 @@
         private $dbHost = "localhost";
         private $dbUser = "root";
         private $dbPass = "devil1107";
-        private $dbName = "ticketsproject";
+        private $dbName = "ticketsbd";
 
         //conección
         public function connectDB(){
