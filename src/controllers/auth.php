@@ -8,7 +8,7 @@ $app->post('/api/auth', function(Request $request, Response $response){
       
     $value = json_decode($request->getBody());
    
-    $sql = "select username, perfil from usuarios where username= :usr and password = :pwd";
+    $sql = "select * from usuarios where username= :usr and password = :pwd";
     try{
         $key = "key_ultra_secreta";
         $db = new db();

@@ -1,7 +1,10 @@
 {
-    "require": {
-        "slim/slim": "3.12",
-        "tuupola/slim-jwt-auth": "^3.4",
-        "firebase/php-jwt": "^5.0"
-    }
+    "name": "karen/ticketapi",
+    "authors": [
+        {
+            "name": "karensird",
+            "email": "karensi_rd@hotmail.com"
+        }
+    ],
+    "require": {}
 }

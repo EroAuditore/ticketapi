@@ -17,15 +17,15 @@ $app = new Slim\App([
 // This is the middleware
 // It will add the Access-Control-Allow-Methods header to every request
 
-/*
+
 $app->add(function ($req, $res, $next) {
     $response = $next($req, $res);
     return $response
             ->withHeader('Access-Control-Allow-Origin', '*')
             ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization, x-requested-with, X-CSRF-TOKEN')
             ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-});*/
-
+});
+/*
 $app->add(function($request, $response, $next) {
     $route = $request->getAttribute("route");
 
@@ -51,7 +51,7 @@ $app->add(function($request, $response, $next) {
                     ->withHeader('Access-Control-Allow-Origin', '*')
     ;
 });
-
+*/
 require_once "src/config/db.php";
 require_once "src/routes/routes.php";
 

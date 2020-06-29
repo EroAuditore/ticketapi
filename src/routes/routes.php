@@ -6,5 +6,7 @@
     require_once "src/controllers/tickets.php";
     require_once "src/controllers/retornos.php";
     require_once "src/controllers/depositos.php";
+    require_once "src/controllers/users.php";
     require_once "src/controllers/auth.php";
+    require_once "src/controllers/facturas.php";
 

@@ -29,7 +29,7 @@ $app->get('/api/depositos', function(Request $request, Response $response){
             $data = $resultado->fetchAll(PDO::FETCH_OBJ);
             echo json_encode($data);
         }else{
-            echo json_encode("No existen depositos en la BD.");
+            echo json_encode (json_decode ("[]"));
         }
         $resultado = null;
         $db = null;

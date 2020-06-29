@@ -38,36 +38,19 @@ $app->get('/api/tickets', function(Request $request, Response $response){
 $app->post('/api/tickets/nuevo', function(Request $request, Response $response){
     /*echo "Api clientes";*/
     $value = json_decode($request->getBody());
-   /* $retornos = json_decode( $value->retornos);*/
     
-    $sql = "insert into tickets ( rfc,
-                    nombre,
-                    montoFacturar,
-                    metodoPago,
-                    condicionesPago,
-                    empresaFacturadora,
-                    Comprobante,
+    $sql = "insert into tickets ( 
                     agente,
+                    nombre,
                     cliente,
-                    formaPago,
-                    CFDI,
-                    Correo,
+                    CantidadTotal,
                     ComisionAgente,
                     ComisionOficina
-                    
                     ) values(
-                    :rfc,
-                    :nombre,
-                    :montoFacturar,
-                    :metodoPago,
-                    :condicionesPago,
-                    :empresaFacturadora,
-                    :Comprobante,
                     :agente,
+                    :nombre,
                     :cliente,
-                    :formaPago,
-                    :CFDI,
-                    :Correo,
+                    :CantidadTotal,
                     :ComisionAgente,
                     :ComisionOficina
                     )";
@@ -76,29 +59,24 @@ $app->post('/api/tickets/nuevo', function(Request $request, Response $response){
         $db = new db();
         $db = $db->connectDB();
         $stmt = $db->prepare($sql);
-        $stmt->bindParam(":rfc", $value->rfc);
-        $stmt->bindParam(":nombre", $value->nombreSolicitante);
-        $stmt->bindParam(":montoFacturar", $value->montoFacturar);
-        $stmt->bindParam(":metodoPago", $value->metodoPago);
-        $stmt->bindParam(":condicionesPago", $value->condicionPago);
-        $stmt->bindParam(":empresaFacturadora", $value->empresaFacturadora);
-        $stmt->bindParam(":Comprobante", $value->tipoComprobante);
-        $stmt->bindParam(":agente", $value->agente);
-        $stmt->bindParam(":cliente", $value->cliente);
-        $stmt->bindParam(":formaPago", $value->formaPago);
-        $stmt->bindParam(":CFDI", $value->usoCFDI);
-        $stmt->bindParam(":Correo", $value->correo);
-        $stmt->bindParam(":ComisionAgente", $value->comisionAgente);
-        $stmt->bindParam(":ComisionOficina", $value->comisionOficina);
-        
-
+        /*foreach ($value->movimiento as $ticket) {*/
+            $cantidadTotal = (double)$value->movimiento->cantidadTotal;
+            $comisionAgente = (double)$value->movimiento->comisionAgente;
+            $comisionOficina = (double)$value->movimiento->comisionOficina;
+           
+        $stmt->bindParam(":agente", $value->movimiento->agente);
+        $stmt->bindParam(":nombre", $value->movimiento->nombre);
+        $stmt->bindParam(":cliente", $value->movimiento->cliente);
+        $stmt->bindParam(":CantidadTotal", $cantidadTotal);
+        $stmt->bindParam(":ComisionAgente", $comisionAgente);
+        $stmt->bindParam(":ComisionOficina",$comisionOficina);
 
         $stmt->execute();
 
         //obtenemos el id del ticket
         $id_ticket = $db->lastInsertId();
         
-       
+   /* }*/
         //insertamos los retornos ligados al ticket
         
         $sqlqry = "insert into retornos ( Nombre,
@@ -115,15 +93,44 @@ $app->post('/api/tickets/nuevo', function(Request $request, Response $response){
         
         $stmt = $db->prepare($sqlqry);
         foreach ($value->retornos as $retorno) {
-        $stmt->bindParam(":Nombre", $retorno->nombre);
-        $stmt->bindParam(":Cuenta_clabe", $retorno->cuenta);
-        $stmt->bindParam(":Banco", $retorno->banco);
-        $stmt->bindParam(":Monto", $retorno->monto);
+        $stmt->bindParam(":Nombre", $retorno->nombreRetorno);
+        $stmt->bindParam(":Cuenta_clabe", $retorno->cuentaRetorno);
+        $stmt->bindParam(":Banco", $retorno->entidadRetorno);
+        $stmt->bindParam(":Monto", $retorno->retornoMonto);
         $stmt->bindParam(":id_ticket", $id_ticket);
         $stmt->execute();
 
         }
         
+
+            //insertamos los depositos ligados al ticket
+            
+            $sqlqry = "insert into facturas ( 
+            RFC,
+            Empresa,
+            Cliente,
+            Concepto,
+            Monto,
+            id_ticket
+            ) values(
+            :RFC,
+            :Empresa,
+            :Cliente,
+            :Concepto,
+            :Monto,
+            :id_ticket
+            )";
+            
+            $stmt = $db->prepare($sqlqry);
+            foreach ($value->facturas as $factura) {
+            $stmt->bindParam(":RFC", $factura->rfcFactura);
+            $stmt->bindParam(":Empresa", $factura->empresaFactura);
+            $stmt->bindParam(":Cliente", $factura->clienteFactura);
+            $stmt->bindParam(":Concepto", $factura->conceptoFactura);
+            $stmt->bindParam(":Monto", $factura->montoFactura);
+            $stmt->bindParam(":id_ticket", $id_ticket);
+            $stmt->execute();
+        }
 
         //insertamos los depositos ligados al ticket
         
@@ -140,9 +147,9 @@ $app->post('/api/tickets/nuevo', function(Request $request, Response $response){
         
         $stmt = $db->prepare($sqlqry);
         foreach ($value->depositos as $deposito) {
-        $stmt->bindParam(":monto", $deposito->montoDeposito);
+        $stmt->bindParam(":monto", $deposito->depositoMonto);
         $stmt->bindParam(":banco", $deposito->bancoDeposito);
-        $stmt->bindParam(":fecha", $deposito->fechaDeposito);
+        $stmt->bindParam(":fecha", $deposito->fechaDepositoStr);
         $stmt->bindParam(":id_ticket", $id_ticket);
         $stmt->execute();
         }
@@ -156,12 +163,79 @@ $app->post('/api/tickets/nuevo', function(Request $request, Response $response){
 
 
 
-//Get todos los tickets;
-$app->get('/api/tickets/{id}', function(Request $request, Response $response){
-    /*echo "Api clientes";*/
+//Buscar ticket;
+$app->post('/api/tickets/filtrar', function(Request $request, Response $response){
+    
+    $value = json_decode($request->getBody());
+    $sql = "select * from tickets where nombre like :nombre";
+    try{
+
+        $db = new db();
+        $db = $db->connectDB();
+        $stmt = $db->prepare($sql);
+        $param = "%" . $value->filterText . "%";
+        
+        $stmt->bindParam(":nombre", $param );
+      
+        $stmt->execute();
+       
+        if($stmt->rowCount()>0 ){
+            $data = $stmt->fetchAll(PDO::FETCH_OBJ);
+            echo json_encode($data);
+        }else{
+            echo json_encode("No existen tickets en la BD.");
+        }
+        $resultado = null;
+        $db = null;
+
+    }catch (PDOException $e)
+    {
+        echo '{"error": { "text":'.$e->getMessage().'}';
+
+    };
+
+});
+
+
+$app->get('/api/tickets/{id}}', function(Request $request, Response $response){
+    
     $id = $request->getAttribute('id');
+
    
     $sql = "select * from tickets where id=$id";
+    try{
+
+        $db = new db();
+        $db = $db->connectDB();
+        $resultado = $db->query($sql);
+        if($resultado->rowCount()>0 ){
+            $data = $resultado->fetchAll(PDO::FETCH_OBJ);
+            echo json_encode($data);
+        }else{
+            echo json_encode (json_decode ("[]"));
+        }
+        $resultado = null;
+        $db = null;
+
+    }catch (PDOException $e)
+    {
+        echo '{"error": { "text":'.$e->getMessage().'}';
+
+    };
+
+});
+
+
+<<<<<<< HEAD
+
+
+
+=======
+//Get todos los tickets;
+$app->get('/api/karen', function(Request $request, Response $response){
+    /*echo "Api clientes";*/
+
+    $sql = "select * from tickets";
     try{
 
         $db = new db();
@@ -183,5 +257,4 @@ $app->get('/api/tickets/{id}', function(Request $request, Response $response){
     };
 
 });
-
-
+>>>>>>> ec06864a01e6ce1a98d751ca329f40c6da521778
