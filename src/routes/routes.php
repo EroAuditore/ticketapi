@@ -9,4 +9,9 @@
     require_once "src/controllers/users.php";
     require_once "src/controllers/auth.php";
     require_once "src/controllers/facturas.php";
+    require_once "src/controllers/agenteCliente.php";
+    require_once "src/controllers/testApi.php";
+    /*require_once "src/controllers/files.php";*/
+
+    
 

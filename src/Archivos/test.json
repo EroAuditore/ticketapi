@@ -1,0 +1,70 @@
+{
+    "movimiento": {
+        "_id": 7,
+        "agente": "The joker",
+        "nombre": "",
+        "cliente": "ADVR Consultores",
+        "cantidadTotal": "580000",
+        "comisionAgente": 0,
+        "comisionOficina": 0,
+        "estatusFactura": "Pendiente",
+        "estatusRetorno": "Pendiente",
+        "estatusDeposito": "Pendiente",
+        "totalDepositos": 0,
+        "totalRetornos": 0,
+        "totalComisiones": 0,
+        "id_sol_factura": null
+    },
+    "depositos": [
+        {
+            "_id": "ca71f257-505f-466e-ab1f-616c6d593104",
+            "bancoDeposito": "Bancomer",
+            "depositoMonto": "580000",
+            "nombreDeposito": "Karen",
+            "comentarioDeposito": "comentarios deposito",
+            "fechaDeposito": "2020-07-27T03:28:01.267Z",
+            "fechaDepositoStr": "2020/07/26"
+        }
+    ],
+    "retornos": [
+        {
+            "_id": "899f448f-eeb4-4148-b5cc-1e36f807642a",
+            "nombreRetorno": "Alma marcela silva de alegria",
+            "entidadRetorno": "Bancomer",
+            "retornoMonto": "500000",
+            "comentarioRetorno": "comentario retorno",
+            "cuentaRetorno": "1283738"
+        },
+        {
+            "_id": "1b9a779b-da1e-4812-91bf-c1ca90ff3189",
+            "nombreRetorno": "Monica Galindo",
+            "entidadRetorno": "Banamex",
+            "retornoMonto": "25600",
+            "comentarioRetorno": "",
+            "cuentaRetorno": "189239137"
+        },
+        {
+            "_id": "730ac3f4-fca7-403d-b36f-ddc79a7ee199",
+            "nombreRetorno": "Carlos solis",
+            "entidadRetorno": "Santander",
+            "retornoMonto": "3000",
+            "comentarioRetorno": "no coments",
+            "cuentaRetorno": "29038958"
+        }
+    ],
+    "comisiones": [
+        {
+            "_id": "94cf7bb6-a513-45aa-98e7-249ad8ca7e61",
+            "Tipo": "Comision Oficina",
+            "Monto": "25000",
+            "Comentarios": "comentarios comision",
+            "Porcentaje": 0
+        },
+        {
+            "_id": "26292684-0983-4337-ad22-2f1537fdef07",
+            "Monto": "26400",
+            "Tipo": "Comision Oficina",
+            "Comentarios": "2 comentario"
+        }
+    ]
+}

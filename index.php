@@ -13,6 +13,8 @@ $app = new Slim\App([
         "displayErrorDetails"=> true
     ]
 ]);
+$container = $app->getContainer();
+$container['upload_directory'] = __DIR__ . '/uploads';
 
 // This is the middleware
 // It will add the Access-Control-Allow-Methods header to every request
@@ -25,6 +27,7 @@ $app->add(function ($req, $res, $next) {
             ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization, x-requested-with, X-CSRF-TOKEN')
             ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
 });
+
 /*
 $app->add(function($request, $response, $next) {
     $route = $request->getAttribute("route");
