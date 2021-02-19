@@ -33,146 +33,6 @@ $app->post('/api/tickets', function(Request $request, Response $response){
 
 });
 
-
-
-//Get todos los tickets;
-$app->post('/api/tickets/nuevo', function(Request $request, Response $response){
-    /*echo "Api clientes";*/
-    $value = json_decode($request->getBody());
-    $directory = $this->get('upload_directory');
-    $uploadedFiles = $request->getUploadedFiles();
-    $files = $_FILES;
-    $inputFile = $files['file']['tmp_name'];
-    $inputFileName = $files['file']['name'];
-    $inputFileType = $files['file']['type'];
-    $dataFile = file_get_contents($inputFile);
-    
-    $value = json_decode($request->getParam('movimientoObj'));
-
-    $sql = "insert into tickets ( 
-                    agente,
-                    nombre,
-                    cliente,
-                    CantidadTotal,
-                    ComisionAgente,
-                    ComisionOficina
-                    ) values(
-                    :agente,
-                    :nombre,
-                    :cliente,
-                    :CantidadTotal,
-                    :ComisionAgente,
-                    :ComisionOficina
-                    )";
-    try{
-
-        $db = new db();
-        $db = $db->connectDB();
-        $stmt = $db->prepare($sql);
-        /*foreach ($value->movimiento as $ticket) {*/
-            $cantidadTotal = (double)$value->movimiento->cantidadTotal;
-            $comisionAgente = (double)$value->movimiento->comisionAgente;
-            $comisionOficina = (double)$value->movimiento->comisionOficina;
-           
-        $stmt->bindParam(":agente", $value->movimiento->agente);
-        $stmt->bindParam(":nombre", $value->movimiento->nombre);
-        $stmt->bindParam(":cliente", $value->movimiento->cliente);
-        $stmt->bindParam(":CantidadTotal", $cantidadTotal);
-        $stmt->bindParam(":ComisionAgente", $comisionAgente);
-        $stmt->bindParam(":ComisionOficina",$comisionOficina);
-
-        $stmt->execute();
-
-        //obtenemos el id del ticket
-        $id_ticket = $db->lastInsertId();
-        
-   /* }*/
-        //insertamos los retornos ligados al ticket
-        
-        $sqlqry = "insert into retornos ( Nombre,
-        Cuenta_clabe,
-        Banco,
-        Monto,
-        id_ticket) values(
-        :Nombre,
-        :Cuenta_clabe,
-        :Banco,
-        :Monto,
-        :id_ticket
-        )";
-        
-        $stmt = $db->prepare($sqlqry);
-        foreach ($value->retornos as $retorno) {
-        $stmt->bindParam(":Nombre", $retorno->nombreRetorno);
-        $stmt->bindParam(":Cuenta_clabe", $retorno->cuentaRetorno);
-        $stmt->bindParam(":Banco", $retorno->entidadRetorno);
-        $stmt->bindParam(":Monto", $retorno->retornoMonto);
-        $stmt->bindParam(":id_ticket", $id_ticket);
-        $stmt->execute();
-
-        }
-        
-
-            //insertamos los depositos ligados al ticket
-            
-            $sqlqry = "insert into facturas ( 
-            RFC,
-            Empresa,
-            Cliente,
-            Concepto,
-            Monto,
-            id_ticket
-            ) values(
-            :RFC,
-            :Empresa,
-            :Cliente,
-            :Concepto,
-            :Monto,
-            :id_ticket
-            )";
-            
-            $stmt = $db->prepare($sqlqry);
-            foreach ($value->facturas as $factura) {
-            $stmt->bindParam(":RFC", $factura->rfcFactura);
-            $stmt->bindParam(":Empresa", $factura->empresaFactura);
-            $stmt->bindParam(":Cliente", $factura->clienteFactura);
-            $stmt->bindParam(":Concepto", $factura->conceptoFactura);
-            $stmt->bindParam(":Monto", $factura->montoFactura);
-            $stmt->bindParam(":id_ticket", $id_ticket);
-            $stmt->execute();
-        }
-
-        //insertamos los depositos ligados al ticket
-        
-        $sqlqry = "insert into depositos ( monto,
-        banco,
-        fecha,
-        id_ticket,
-        ) values(
-        :monto,
-        :banco,
-        :fecha,
-        :id_ticket
-        )";
-        
-        $stmt = $db->prepare($sqlqry);
-        foreach ($value->depositos as $deposito) {
-        $stmt->bindParam(":monto", $deposito->depositoMonto);
-        $stmt->bindParam(":banco", $deposito->bancoDeposito);
-        $stmt->bindParam(":fecha", $deposito->fechaDepositoStr);
-        $stmt->bindParam(":id_ticket", $id_ticket);
-        $stmt->execute();
-        }
-
-    }catch (PDOException $e)
-    {
-        echo '{"error": { "text":'.$e->getMessage().'}';
-
-    };
-});
-
-
-
 //Buscar ticket;
 $app->post('/api/tickets/filtrar', function(Request $request, Response $response){
     
@@ -331,6 +191,7 @@ $app->post('/api/movimiento/nuevo', function(Request $request, Response $respons
         $stmt->execute();
         //obtenemos el id del movimiento
         $idMovimiento = $db->lastInsertId();
+
              
         //insertamos los RETORNOS ligados al movimiento
         $sqlqry = "insert into retornos ( 
@@ -450,6 +311,12 @@ $app->post('/api/movimiento/nuevo', function(Request $request, Response $respons
         $stmt->bindParam(":fileType", $inputFileType);
         $stmt->bindParam(":idMovimiento", $idMovimiento);
         $stmt->execute();
+
+       //Actualizamos la solicitud con el movimiento asignado
+       if($movimiento->solicitudId != null){
+        asignaMovimientoIdSolicitud($movimiento->solicitudId,$idMovimiento);
+       }
+       
      
 
         }
@@ -600,13 +467,17 @@ $app->post('/api/factura/movimiento/asignar', function(Request $request, Respons
     $solicitudId = $value->solicitudId;
 
   
-        $sql = "UPDATE facturas
+        $sql = "UPDATE movimiento
                 SET idMovimiento = :idMovimiento
                 where _id =:_id;
 
                 UPDATE movimiento
                 SET  solicitudId = :solicitudId
                 where _id = :idMov
+
+                UPDATE solicitud_factura
+                SET id_movimiento = :idMov 
+                WHERE solicitudId =  :solicitudId
                 ";
 
 

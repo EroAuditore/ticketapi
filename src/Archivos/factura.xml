@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xsi:schemaLocation="http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv33.xsd" Version="3.3" 
+    Serie="A" 
+    Folio="3346" 
+    Fecha="2020-08-11T12:01:15" 
+    FormaPago="03" 
+    NoCertificado="00001000000504064518" 
+    Certificado="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" 
+    SubTotal="2228.57" 
+    Moneda="USD" 
+    TipoCambio="10.000000"
+    Total="2228.57" 
+    TipoDeComprobante="I" 
+    MetodoPago="PUE" 
+    LugarExpedicion="03650" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:cfdi="http://www.sat.gob.mx/cfd/3" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    Sello="XywrbDNuyMMM2BNgE8f1Hde/K7eogS5tgGggPs0HuQRiTZNRxPB/zqTFU8RebyiHzYg3+VEKLna0S3ltW7Y8HfZedqfiGKA61s0ratJ2MvBe3Vb0F3LWrJHRrjhmcx9l/cZiI5yibFxNRAA6bJUwLGnlXy95lozmmurLA+AsMu3lGpwDuRl246VRRXF2ZX6UYPzUFtB4+STsZ9iuBuYdP7N/pqGGWp+6iGNJ4L5AIoLXcxd7yW7mNw4eS8ALAeeNAfkoRNLEDmr8/FPogPS91788fc+YMKBhMghifWlbufLM7cyiS5OxBnZSUF/teKg3gRPXa9mF2Z+j+lD4Luum+A==">
+<cfdi:Emisor 
+    Rfc="STT160427I31" 
+    Nombre="SAMAVA 333 SA DE CV" 
+    RegimenFiscal="601">
+</cfdi:Emisor>
+<cfdi:Receptor 
+    Rfc="XEXX010101000" 
+    Nombre="DREAMTEX INC"
+    UsoCFDI="G03">
+</cfdi:Receptor>
+<cfdi:Conceptos>
+    <cfdi:Concepto 
+        ClaveProdServ="42131600" 
+        Cantidad="2600" 
+        ClaveUnidad="H87" 
+        Unidad="H87" 
+        Descripcion="42131600 Adult Fabric Mak-MODEL BREATHEASY MASK -(ARIZONA) - 100% POLYESTER CENTRED 20cms x 14.5 cms FACEMASK HAS INER SEAMED AND IS FORMED BY 2 EQUAL PARTS SEWN IN MIDDLE WHTI A BLACEARLOOP (6.5MMX 16.25CMX ) 3paly washable -113grams (olympus) p/o 6567" 
+        ValorUnitario="0.58" 
+        Importe="1508.00">
+
+    <cfdi:Impuestos>
+        <cfdi:Traslados>
+            <cfdi:Traslado 
+            Base="1508.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.000000" Importe="0">
+            </cfdi:Traslado>
+        </cfdi:Traslados>
+    </cfdi:Impuestos>
+</cfdi:Concepto>
+<cfdi:Concepto 
+    ClaveProdServ="78141500" 
+    Cantidad="1"
+     ClaveUnidad="E48" Unidad="E48" 
+     Descripcion="78141500 SHIPPING WAYBILL UPS 1Z 52R 4F8 04 94747013 3 large boxes 70x40x 50 with a content in each of 18 packages with 40 pieces each with a total of 720 pieces in box 1 large boxes 70x40x 50 with a content in each of 11 packages with 40 pieces each with" 
+     ValorUnitario="720.57" 
+     Importe="720.57">
+<cfdi:Impuestos>
+<cfdi:Traslados>
+<cfdi:Traslado Base="720.57" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.000000" Importe="0">
+</cfdi:Traslado>
+</cfdi:Traslados>
+</cfdi:Impuestos>
+</cfdi:Concepto>
+</cfdi:Conceptos>
+<cfdi:Impuestos TotalImpuestosTrasladados="0.00">
+<cfdi:Traslados>
+<cfdi:Traslado Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.000000" Importe="0.00">
+</cfdi:Traslado></cfdi:Traslados></cfdi:Impuestos><cfdi:Complemento>
+<tfd:TimbreFiscalDigital RfcProvCertif="TSP080724QW6" Version="1.1" 
+    UUID="52FE863E-4FA1-4A96-98BC-7B6B973F3C09" 
+    FechaTimbrado="2020-08-11T12:01:15" 
+    SelloCFD="XywrbDNuyMMM2BNgE8f1Hde/K7eogS5tgGggPs0HuQRiTZNRxPB/zqTFU8RebyiHzYg3+VEKLna0S3ltW7Y8HfZedqfiGKA61s0ratJ2MvBe3Vb0F3LWrJHRrjhmcx9l/cZiI5yibFxNRAA6bJUwLGnlXy95lozmmurLA+AsMu3lGpwDuRl246VRRXF2ZX6UYPzUFtB4+STsZ9iuBuYdP7N/pqGGWp+6iGNJ4L5AIoLXcxd7yW7mNw4eS8ALAeeNAfkoRNLEDmr8/FPogPS91788fc+YMKBhMghifWlbufLM7cyiS5OxBnZSUF/teKg3gRPXa9mF2Z+j+lD4Luum+A==" 
+    NoCertificadoSAT="00001000000501960426" 
+    SelloSAT="WtFoteBOJLVM22Yuie9W0G45uo6pomXcPgUOL+xAZjw8fYSHhynGimd/P5xrOUWqfXMv2aieG+UZRQopVUqj4d6SXiOv8X9Z+mOgqxedoaz38AbrXjLnBIIBjuUwygx17jmRFBsI1WNKHZST0N3l/TPLEqXS5uj6tw6JkwmT/+JZ5uG1BKuQRAG5rUf32p08/J5pSVpjVGhMi243oblD24WnFVRwthDkwiaomFJVUEEd2jm0ii0+4CufsPyaAbsutrGjb/NCDtyMc9zu3tL1w9zHZDNAb6ZIO4UlUHgREO83gGNnwhBP1fi7B5lKKtBu0HZbI91IRkQlJKz2BWHkCw==" 
+    xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/timbrefiscaldigital/TimbreFiscalDigitalv11.xsd" 
+    xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+    </cfdi:Complemento></cfdi:Comprobante>

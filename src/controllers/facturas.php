@@ -54,11 +54,8 @@ $app->post('/api/movimiento/facturas/tomar', function(Request $request, Response
        
         if($stmt->rowCount()>0 ){
             $facturas = $stmt->fetchAll(PDO::FETCH_OBJ);
-
-
         }else{
-            $facturas = [];
-           
+            $facturas = [];           
         }
 
         $sql = "SELECT *
@@ -197,7 +194,7 @@ $app->get('/api/solicitud/facturas', function(Request $request, Response $respon
             $data = $resultado->fetchAll(PDO::FETCH_OBJ);
             echo json_encode($data);
         }else{
-            echo json_encode("No existen solicitudes de factura en la BD.");
+            echo json_encode([]);
         }
         $resultado = null;
         $db = null;
@@ -693,3 +690,69 @@ $app->post('/api/factura/generar', function(Request $request, Response $response
 
     };
 });
+
+// facturas de la solicitud de un cliente
+$app->post('/api/facturas/solicitud', function(Request $request, Response $response){
+
+    $value = json_decode($request->getBody());
+
+    $sql = "SELECT *
+                    FROM v_factura 
+                    WHERE solicitudId =  :_id";
+    try{
+        $solicitudId = (int)$value->_id;        
+
+        $db = new db();
+        $db = $db->connectDB();
+        $stmt = $db->prepare($sql);
+      
+        
+        $stmt->bindParam(":_id", $value->_id );
+      
+        $stmt->execute();
+        
+        if($stmt->rowCount()>0 ){
+            $facturas = $stmt->fetchAll(PDO::FETCH_OBJ);
+           
+        }else{
+            $facturas = [];
+           
+        }
+
+        echo json_encode($facturas);
+            
+    }catch (PDOException $e)
+    {
+        echo '{"error": { "text":'.$e->getMessage().'}';
+
+    };
+
+});
+
+
+
+//Funcion para asignar un movimiento ID a una solicitud de facturacion
+
+function asignaMovimientoIdSolicitud($solicitudId, $movimientoId){
+
+        $sql = "UPDATE solicitud_factura
+                SET id_movimiento = :id_movimiento 
+                WHERE solicitudId =  :solicitudId";
+
+    try {
+        $db = new db();
+        $db = $db->connectDB();
+        $stmt = $db->prepare($sql);
+      
+        
+        $stmt->bindParam(":id_movimiento", $id_movimiento );
+        $stmt->bindParam(":solicitudId", $solicitudId );
+      
+        $stmt->execute();
+
+    } catch (PDOException $e) {
+        //throw $th;
+    }
+
+} 
+
