@@ -520,7 +520,6 @@ $app->post('/api/factura/movimiento/asignar', function(Request $request, Respons
 });
 
 
-<<<<<<< HEAD
 
 $app->post('/api/movimiento/validar', function(Request $request, Response $response){
     $value = json_decode($request->getBody());
@@ -616,28 +615,6 @@ $app->post('/api/factura/xml/test', function(Request $request, Response $respons
      );
      echo json_encode($data);
     }  catch (PDOException $e)
-=======
-//Get todos los tickets;
-$app->get('/api/karen', function(Request $request, Response $response){
-    /*echo "Api clientes";*/
-
-    $sql = "select * from tickets";
-    try{
-
-        $db = new db();
-        $db = $db->connectDB();
-        $resultado = $db->query($sql);
-        if($resultado->rowCount()>0 ){
-            $data = $resultado->fetchAll(PDO::FETCH_OBJ);
-            echo json_encode($data);
-        }else{
-            echo json_encode("No existen tickets en la BD.");
-        }
-        $resultado = null;
-        $db = null;
-
-    }catch (PDOException $e)
->>>>>>> ec06864a01e6ce1a98d751ca329f40c6da521778
     {
         echo '{"error": { "text":'.$e->getMessage().'}';
 
