@@ -1,5 +1,3 @@
 /vendor/
-<<<<<<< HEAD
 /src/config/db.php
-=======
->>>>>>> ec06864a01e6ce1a98d751ca329f40c6da521778
+.vscode
