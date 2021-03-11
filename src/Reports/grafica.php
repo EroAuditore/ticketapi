@@ -5,7 +5,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 //Get todos los clientes cada uno con su suma total de comisiones;
 $app->get('/api/movimiento/comision/cliente', function(Request $request, Response $response){
 
-    $sql = "select Cliente, SUM(totalComisiones) as totalComision from movimiento group by cliente";
+    $sql = "select Cliente, SUM(totalComisiones) as totalComision from v_movimiento group by cliente";
     try{
 
         $db = new db();
