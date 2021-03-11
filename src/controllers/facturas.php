@@ -316,7 +316,7 @@ $app->post('/api/solicitud/guardar', function(Request $request, Response $respon
                 file,
                 fileName,
                 fileType,
-                idMovimiento
+                idSolicitud
         
         ) values(
             :file,
