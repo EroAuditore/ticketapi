@@ -210,13 +210,14 @@ $app->get('/api/solicitud/facturas', function(Request $request, Response $respon
 
 //Guardar las solicitudes de facturas y las N facturas;
 $app->post('/api/solicitud/guardar', function(Request $request, Response $response){
-    $value = json_decode($request->getBody());
+    
     //Obtenemos el total de solicitudes
-    $TotalSolicitudes=0;
+    $directory = $this->get('upload_directory');
+    $uploadedFiles = $request->getUploadedFiles();
+    $files = $_FILES;
+    $value = json_decode($request->getParam('solicitudObj'));
     $Estatus_solicitud=1;
-    foreach ($value->facturas as $facturas) {
-        $TotalSolicitudes=$TotalSolicitudes+1;
-        }
+   
 
     $solicitud = $value->solicitud;
     //hacemos el insert a la base de datos
@@ -636,7 +637,7 @@ $app->post('/api/factura/generar', function(Request $request, Response $response
                     FROM v_factura 
                     WHERE _id =  :_id";
     try{
-        $esatusFactura = (int)$value->estatus;
+        //$esatusFactura = (int)$value->estatus;
         /***** Estatus facturas ****
                 0,1	Pendiente
                 1	Atendiendo
@@ -645,8 +646,8 @@ $app->post('/api/factura/generar', function(Request $request, Response $response
                 4   cancelada
                 */
 
-        if($esatusFactura == 0 )
-            asignaUsuarioFacturas( $value->currentUserId,  $value->_id);
+        //if($esatusFactura == 0 )
+        //    asignaUsuarioFacturas( $value->currentUserId,  $value->_id);
 
         $db = new db();
         $db = $db->connectDB();
@@ -667,7 +668,7 @@ $app->post('/api/factura/generar', function(Request $request, Response $response
 
         $sqlqry = "select _id, fileName, fileType from archivos where solicitudId = :_id";
         $stmt = $db->prepare($sqlqry);
-        $stmt->bindParam(":_id", $value->solicitudId );
+        $stmt->bindParam(":_id", $factura[0]->solicitudId );
         $stmt->execute();
         if($stmt->rowCount()>0 ){
             $files = $stmt->fetchAll(PDO::FETCH_OBJ);

@@ -5,8 +5,8 @@ use \Psr\Http\Message\ResponseInterface as Response;
 //Get todos los tickets;
 $app->post('/api/tickets', function(Request $request, Response $response){
     /*echo "Api clientes";*/
-    $value = json_decode($request->getBody());
-    $userId = $value->userId;
+    /*$value = json_decode($request->getBody());
+    $userId = $value->userId;*/
 
     /*$sql = "select * from v_movimiento";*/
     $sql = "SELECT * FROM v_movimiento
