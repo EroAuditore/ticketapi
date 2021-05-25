@@ -12,7 +12,7 @@
     require_once "src/controllers/agenteCliente.php";
     require_once "src/controllers/testApi.php";
     require_once "src/Reports/grafica.php";
-    /*require_once "src/controllers/files.php";*/
+    require_once "src/controllers/files.php";
 
     
 

@@ -3,7 +3,7 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use \Psr\Http\Message\StreamInterface as StreamInterface;
 
-//Get todos los tickets;
+
 $app->post('/api/file', function(Request $request, Response $response){
     /*echo "Api clientes";*/
     $value = json_decode($request->getBody());
@@ -64,5 +64,41 @@ $app->post('/api/file', function(Request $request, Response $response){
 
     };
 
+
+});
+
+$app->post('/api/files/movimiento', function(Request $request, Response $response){
+    /*echo "Api clientes";*/
+    $value = json_decode($request->getBody());
+   
+    $sql = "select _id, fileName from archivos where idMovimiento = :_id";
+    try{
+
+        $db = new db();
+        $db = $db->connectDB();
+        $stmt = $db->prepare($sql);
+      
+        
+        $stmt->bindParam(":_id", $value->_id );
+      
+        $stmt->execute();
+        
+        if($stmt->rowCount()>0 ){
+            $files = $stmt->fetchAll(PDO::FETCH_OBJ);
+           
+        }else{
+            $files = [];
+           
+        }
+
+        echo json_encode($files);
+        $resultado = null;
+        $db = null;
+
+    }catch (PDOException $e)
+    {
+        echo '{"error": { "text":'.$e->getMessage().'}';
+
+    };
 
 });
