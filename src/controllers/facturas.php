@@ -264,7 +264,8 @@ $app->post('/api/solicitud/guardar', function(Request $request, Response $respon
         generada,
         email,
         solicitudId,
-        conceptoFactura
+        conceptoFactura, 
+        moneda
         ) values(
         :RFC,
         :empresaFacturadora,
@@ -281,7 +282,8 @@ $app->post('/api/solicitud/guardar', function(Request $request, Response $respon
         :generada,
         :email,
         :solicitudId,
-        :conceptoFactura 
+        :conceptoFactura,
+        :moneda 
         )";
         
         $stmt = $db->prepare($sqlqry);
@@ -302,6 +304,7 @@ $app->post('/api/solicitud/guardar', function(Request $request, Response $respon
         $stmt->bindParam(":email", $facturas->email);
         $stmt->bindParam(":solicitudId", $id_solicitud);
         $stmt->bindParam(":conceptoFactura", $facturas->conceptoFactura);
+        $stmt->bindParam(":moneda", $facturas->moneda);
         $stmt->execute();
         }
 
@@ -317,7 +320,7 @@ $app->post('/api/solicitud/guardar', function(Request $request, Response $respon
                 file,
                 fileName,
                 fileType,
-                idMovimiento
+                solicitudId
         
         ) values(
             :file,
