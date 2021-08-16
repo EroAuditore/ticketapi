@@ -372,7 +372,8 @@ $app->get('/api/facturas/solicitudes', function(Request $request, Response $resp
 
 });
 
-$app->post('/api/facturas/filtrar', function(Request $request, Response $response){
+//Facturas pendientes de asignar movimiento x cliente
+$app->post('/api/facturas/pendientes/movimiento', function(Request $request, Response $response){
     
     $value = json_decode($request->getBody());
     $sql = "select * from v_solicitud where idCliente = :_id AND id_movimiento IS NULL";
@@ -741,7 +742,7 @@ function asignaMovimientoIdSolicitud($solicitudId, $movimientoId){
 
         $sql = "UPDATE solicitud_factura
                 SET id_movimiento = :id_movimiento 
-                WHERE solicitudId =  :solicitudId";
+                WHERE _id =  :solicitudId";
 
     try {
         $db = new db();

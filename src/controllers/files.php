@@ -102,3 +102,39 @@ $app->post('/api/files/movimiento', function(Request $request, Response $respons
     };
 
 });
+
+$app->post('/api/files/solicitud', function(Request $request, Response $response){
+    /*echo "Api clientes";*/
+    $value = json_decode($request->getBody());
+   
+    $sql = "select _id, fileName from archivos where solicitudId = :_id";
+    try{
+
+        $db = new db();
+        $db = $db->connectDB();
+        $stmt = $db->prepare($sql);
+      
+        
+        $stmt->bindParam(":_id", $value->_id );
+      
+        $stmt->execute();
+        
+        if($stmt->rowCount()>0 ){
+            $files = $stmt->fetchAll(PDO::FETCH_OBJ);
+           
+        }else{
+            $files = [];
+           
+        }
+
+        echo json_encode($files);
+        $resultado = null;
+        $db = null;
+
+    }catch (PDOException $e)
+    {
+        echo '{"error": { "text":'.$e->getMessage().'}';
+
+    };
+
+});

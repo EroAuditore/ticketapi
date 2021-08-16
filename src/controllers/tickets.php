@@ -126,7 +126,7 @@ $app->get('/api/karen', function(Request $request, Response $response){
 
 
 
-//Get todos los movimientos;
+//Crea un nuevo movimiento ;
 $app->post('/api/movimiento/nuevo', function(Request $request, Response $response){
   
     
@@ -411,21 +411,12 @@ $app->post('/api/movimiento/atender', function(Request $request, Response $respo
 
 $app->post('/api/movimientos/pendientes/facturar', function(Request $request, Response $response){
     $value = json_decode($request->getBody());
-
     $idCliente = $value->idCliente;
-    $idSolFact = $value->solicitudId;
-    $idMovimiento = $value->idMovimiento;
+    
 
-    if($idMovimiento == null){
-        $sql = "select * from v_movimiento
+    $sql = "select * from v_movimiento
                 where solicitudId IS NULL and idCliente = :ID";
                 $ID = $idCliente;
-
-    } else {
-        $sql = "select * from v_movimiento
-        where _id  = :ID";
-            $ID = $idMovimiento;
-    }
     
 
     try{
@@ -445,7 +436,6 @@ $app->post('/api/movimientos/pendientes/facturar', function(Request $request, Re
         echo json_encode (json_decode ("[]"));
        
     }
-    
 
    
     } catch (PDOException $e)
@@ -621,3 +611,29 @@ $app->post('/api/factura/xml/test', function(Request $request, Response $respons
     };
 
 });
+
+
+/**Asignar una solicitud a un movimiento */
+
+function asignaSolicitudAMovimiento($solicitudId, $movimientoId){
+
+    $sql = "UPDATE movimiento
+            SET solicitudId = :solicitudId 
+            WHERE _id =  :id_movimiento";
+
+try {
+    $db = new db();
+    $db = $db->connectDB();
+    $stmt = $db->prepare($sql);
+  
+    
+    $stmt->bindParam(":id_movimiento", $id_movimiento );
+    $stmt->bindParam(":solicitudId", $solicitudId );
+  
+    $stmt->execute();
+
+} catch (PDOException $e) {
+    //throw $th;
+}
+
+} 
