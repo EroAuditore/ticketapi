@@ -67,7 +67,7 @@ $app->post('/api/tickets/filtrar', function(Request $request, Response $response
 });
 
 
-$app->get('/api/tickets/{id}}', function(Request $request, Response $response){
+$app->get('/api/movimiento/{id}}', function(Request $request, Response $response){
     
     $id = $request->getAttribute('id');
 
