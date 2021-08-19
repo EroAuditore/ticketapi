@@ -734,6 +734,41 @@ $app->post('/api/facturas/solicitud', function(Request $request, Response $respo
 
 });
 
+// Asigna Solicitud a movimiento
+
+$app->post('/api/solicitud/movimiento/asignar', function(Request $request, Response $response){
+    $value = json_decode($request->getBody());
+   
+    $idMovimiento = $value->idMovimiento;
+    $solicitudId = $value->solicitudId;
+  
+        $sql = "UPDATE solicitud_factura
+                SET id_movimiento = :idMovimiento
+                WHERE _id =  :solicitudId;
+                UPDATE movimiento
+                SET  solicitudId = :solicitudId
+                where _id = :idMovimiento";
+
+    try{
+    $db = new db();
+    $db = $db->connectDB();
+    $stmt = $db->prepare($sql);
+    
+    $stmt->bindParam(":idMovimiento", $idMovimiento );
+    $stmt->bindParam(":solicitudId", $solicitudId );
+    $stmt->execute();
+
+    echo json_encode("{Sucess: true}");
+   
+    } catch (PDOException $e)
+    {
+        echo '{"error": { "text":'.$e->getMessage().'}';
+
+    };
+
+
+});
+
 
 
 //Funcion para asignar un movimiento ID a una solicitud de facturacion

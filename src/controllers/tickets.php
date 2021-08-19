@@ -67,25 +67,34 @@ $app->post('/api/tickets/filtrar', function(Request $request, Response $response
 });
 
 
-$app->get('/api/movimiento/{id}}', function(Request $request, Response $response){
+$app->get('/api/movimiento/id/{id}', function(Request $request, Response $response){
     
-    $id = $request->getAttribute('id');
+     $id = $request->getAttribute('id');
+    //$id = $args['id'];
 
    
-    $sql = "select * from tickets where id=$id";
+    $sql = "SELECT * from v_movimiento where _id = :_id";
     try{
 
         $db = new db();
         $db = $db->connectDB();
-        $resultado = $db->query($sql);
-        if($resultado->rowCount()>0 ){
-            $data = $resultado->fetchAll(PDO::FETCH_OBJ);
-            echo json_encode($data);
-        }else{
-            echo json_encode (json_decode ("[]"));
-        }
-        $resultado = null;
-        $db = null;
+        $stmt = $db->prepare($sql);
+        // $stmt->bindValue(":_id", $id);
+        // $stmt = $db->prepare($sql);
+   
+    
+    $stmt->bindParam(":_id", $id );
+  
+    $stmt->execute();
+   
+    if($stmt->rowCount()>0 ){
+        $data = $stmt->fetchAll(PDO::FETCH_OBJ);
+        echo json_encode($data);
+    }else{
+        echo json_encode (json_decode ("[]"));
+       
+    }
+
 
     }catch (PDOException $e)
     {
