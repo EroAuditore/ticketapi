@@ -794,5 +794,44 @@ function asignaMovimientoIdSolicitud($solicitudId, $movimientoId){
         //throw $th;
     }
 
-} 
+}
 
+
+function updateSolicitudEstatus($solicitudId){
+
+    try {
+        // Total de facturas
+        $sql = "SELECT count(_id)  as count FROM facturas where solicitudId = :solicitudId";
+        $db = new db();
+        $db = $db->connectDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(":solicitudId", $solicitudId );
+        $stmt->execute();
+        $total = $stmt->fetchColumn();
+
+        // Conteo de estatus
+        $sql = "SELECT sum(estatus)  as sum FROM facturas where solicitudId = :solicitudId";
+        $db = new db();
+        $db = $db->connectDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(":solicitudId", $solicitudId );
+        $stmt->execute();
+        $sumEstatus = $stmt->fetchColumn();
+
+        $totalFacturas = $total * 3;
+
+        //total de factuas tienen el estatus 3
+        if($totalFacturas == $sumEstatus)
+        {
+            return 3; //estatus solicitud 3(finalizado), la solicitud ha finalizado de generar las facturas
+        }
+        if ($sumEstatus < $totalFacturas){
+            return 2; //estatus solicitud 2(pendiente), la solicitud aun no finaliza generar factuas
+        }
+        
+
+    } catch (PDOException $e) {
+        
+    }
+
+}
