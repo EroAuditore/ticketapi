@@ -539,6 +539,7 @@ $app->post('/api/factura/xml', function(Request $request, Response $response){
             }
             $resultado = null;
             $db = null;
+            updatesolicitudEstatus($value2->solicitudId);
 
         }catch (PDOException $e)
         {
@@ -797,7 +798,7 @@ function asignaMovimientoIdSolicitud($solicitudId, $movimientoId){
 }
 
 
-function updateSolicitudEstatus($solicitudId){
+function solicitudEstatus($solicitudId){
 
     try {
         // Total de facturas
@@ -818,7 +819,7 @@ function updateSolicitudEstatus($solicitudId){
         $stmt->execute();
         $sumEstatus = $stmt->fetchColumn();
 
-        $totalFacturas = $total * 3;
+        $totalFacturas = $total * 2;
 
         //total de factuas tienen el estatus 3
         if($totalFacturas == $sumEstatus)
@@ -833,5 +834,29 @@ function updateSolicitudEstatus($solicitudId){
     } catch (PDOException $e) {
         
     }
+
+}
+
+
+function updatesolicitudEstatus($solicitudId){
+
+    $sql = "UPDATE solicitud_factura
+            SET Estatus_solicitud = :estatus 
+            WHERE _id =  :solicitudId";
+
+try {
+    $db = new db();
+    $db = $db->connectDB();
+    $stmt = $db->prepare($sql);
+  
+    $estatus = solicitudEstatus($solicitudId);
+    $stmt->bindParam(":estatus", $estatus );
+    $stmt->bindParam(":solicitudId", $solicitudId );
+  
+    $stmt->execute();
+
+} catch (PDOException $e) {
+    //throw $th;
+}
 
 }
