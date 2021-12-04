@@ -98,7 +98,7 @@ $app->post('/api/cliente/filtrar', function(Request $request, Response $response
 
 
 //buscar los datos del todos los clientes, agrupados por agente
-$app->post('/api/clientes/todos', function(Request $request, Response $response){
+$app->get('/api/clientes/todos', function(Request $request, Response $response){
     
     $value = json_decode($request->getBody());
     $sql = "select *
@@ -131,7 +131,7 @@ $app->post('/api/clientes/todos', function(Request $request, Response $response)
 
 
 //buscar los datos del todos los clientes, agrupados por agente
-$app->post('/api/clientes/nuevo', function(Request $request, Response $response){
+$app->post('/api/cliente/nuevo', function(Request $request, Response $response){
     
     $value = json_decode($request->getBody());
     $sql = "INSERT INTO cliente (
@@ -183,7 +183,7 @@ $app->post('/api/clientes/nuevo', function(Request $request, Response $response)
 });
 
 
-//buscar los datos del todos los clientes, agrupados por agente
+//Crea un nuevo agente
 $app->post('/api/agente/nuevo', function(Request $request, Response $response){
     
     $value = json_decode($request->getBody());
